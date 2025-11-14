@@ -8,7 +8,7 @@ export default function Univ2() {
   const [fees, setFees] = useState(null)
 
   useEffect(() => { 
-    fetch((import.meta.env.VITE_BACKEND_URL || '') + `/api/universities/${slug}`)
+    fetch((process.env.REACT_APP_BACKEND_URL || '') + `/api/universities/${slug}`)
       .then(r => r.json())
       .then(setData)
       .catch(err => console.error('Failed to fetch university data:', err))
@@ -17,7 +17,7 @@ export default function Univ2() {
   async function openFees() {
     setShowFees(true)
     try {
-      const r = await fetch((import.meta.env.VITE_BACKEND_URL || '') + `/api/universities/${slug}/course-fees`)
+      const r = await fetch((process.env.REACT_APP_BACKEND_URL || '') + `/api/universities/${slug}/course-fees`)
       setFees(await r.json())
     } catch (err) {
       console.error('Failed to fetch fees:', err)

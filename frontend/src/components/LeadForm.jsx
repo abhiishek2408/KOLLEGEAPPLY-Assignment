@@ -33,7 +33,7 @@ export default function LeadForm({ onSuccess, universityName }) {
     setIsSubmitting(true)
     
     try {
-      await fetch((import.meta.env.VITE_BACKEND_URL || '') + '/api/leads', { 
+      await fetch((process.env.REACT_APP_BACKEND_URL || '') + '/api/leads', { 
         method: 'POST', 
         headers: { 'Content-Type': 'application/json' }, 
         body: JSON.stringify(form) 
