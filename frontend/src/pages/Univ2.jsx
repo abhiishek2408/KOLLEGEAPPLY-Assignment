@@ -32,14 +32,14 @@ export default function Univ2() {
             <div className="flex-1">
               <div className="inline-block mb-3">
                 <span className="badge bg-blue-600 text-white border border-white/30">
-                  <i className="fas fa-university"></i> {data?.universityType || 'Institute of Technology'}
+                  <i className="fas fa-university"></i> {data?.universityType }
                 </span>
               </div>
               <h1 className="text-3xl md:text-5xl font-bold mb-3">
-                {data?.name || 'Crescent Institute of Technology'}
+                {data?.name }
               </h1>
               <p className="text-pink-100 text-lg max-w-2xl">
-                {data?.overview || 'Crescent Institute emphasizes research and placements.'}
+                {data?.overview }
               </p>
             </div>
             
@@ -51,7 +51,7 @@ export default function Univ2() {
                 <i className="fas fa-dollar-sign"></i> Course Fees
               </button>
               <a
-                href={data?.universityBrochureLink || '#'}
+                href={data?.universityBrochureLink }
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-primary bg-white text-white-600 hover:bg-pink-50"
@@ -75,7 +75,7 @@ export default function Univ2() {
             <div className="card p-8">
               <h2 className="section-title"><i className="fas fa-book-open"></i> Overview</h2>
               <p className="text-gray-700 leading-relaxed text-lg">
-                {data?.overview || 'Crescent Institute emphasizes research and placements.'}
+                {data?.overview}
               </p>
             </div>
 
@@ -155,7 +155,7 @@ export default function Univ2() {
 
           <div className="lg:col-span-1" id="enquiry-form">
             <LeadForm 
-              universityName={data?.name || 'Crescent Institute of Technology'}
+              universityName={data?.name}
               onSuccess={() => {}} 
             />
           </div>
