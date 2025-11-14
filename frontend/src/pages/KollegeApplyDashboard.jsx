@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
 
+const DEFAULT_API_BASE = 'https://kollegeapply-assignment-48hd.onrender.com'
+
 export default function KollegeApplyDashboard() {
   const [universities, setUniversities] = useState(null)
   const [error, setError] = useState(null)
 
   useEffect(() => {
     async function load() {
-      const envBase = (process.env.REACT_APP_BACKEND_URL || '').replace(/\/$/, '')
-      const primaryUrl = envBase ? envBase + '/api/universities' : '/api/universities'
+      const configured = (process.env.REACT_APP_BACKEND_URL || '').replace(/\/$/, '')
+      const base = configured || DEFAULT_API_BASE
+      const primaryUrl = base + '/api/universities'
       const tried = []
       for (const url of [primaryUrl, '/api/universities']) {
         if (tried.includes(url)) continue

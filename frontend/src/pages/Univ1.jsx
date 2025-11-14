@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+
+const DEFAULT_API_BASE = 'https://kollegeapply-assignment-48hd.onrender.com'
 import LeadForm from '../components/LeadForm'
 
 export default function Univ1() {
@@ -10,8 +12,9 @@ export default function Univ1() {
   useEffect(() => { 
     const load = async () => {
       try {
-        const base = (process.env.REACT_APP_BACKEND_URL || '').replace(/\/$/, '')
-        const url = (base ? base : '') + `/api/universities/${slug}`
+        const configured = (process.env.REACT_APP_BACKEND_URL || '').replace(/\/$/, '')
+        const base = configured || DEFAULT_API_BASE
+        const url = base + `/api/universities/${slug}`
         console.log('[Univ1] Fetching', url)
         const r = await fetch(url, { headers: { 'Accept': 'application/json' } })
         const ct = r.headers.get('content-type') || ''
@@ -32,8 +35,9 @@ export default function Univ1() {
   async function openFees() {
     setShowFees(true)
     try {
-      const base = (process.env.REACT_APP_BACKEND_URL || '').replace(/\/$/, '')
-      const url = (base ? base : '') + `/api/universities/${slug}/course-fees`
+      const configured = (process.env.REACT_APP_BACKEND_URL || '').replace(/\/$/, '')
+      const base = configured || DEFAULT_API_BASE
+      const url = base + `/api/universities/${slug}/course-fees`
       const r = await fetch(url, { headers: { 'Accept': 'application/json' } })
       const ct = r.headers.get('content-type') || ''
       if (!r.ok) throw new Error('HTTP ' + r.status)
