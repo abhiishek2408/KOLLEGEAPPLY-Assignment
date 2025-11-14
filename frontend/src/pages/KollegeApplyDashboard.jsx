@@ -7,12 +7,23 @@ export default function KollegeApplyDashboard() {
   useEffect(() => {
     async function load() {
       try {
-        const res = await fetch((process.env.REACT_APP_BACKEND_URL || '') + '/api/universities')
+        const base = process.env.REACT_APP_BACKEND_URL?.replace(/\/$/, '') || ''
+        const url = base + '/api/universities'
+        console.log('[Dashboard] Fetching universities from', url)
+        const res = await fetch(url, { headers: { 'Accept': 'application/json' } })
+        const ct = res.headers.get('content-type') || ''
+        if (!res.ok) {
+          throw new Error('HTTP ' + res.status)
+        }
+        if (!ct.includes('application/json')) {
+          const textPreview = (await res.text()).slice(0, 120)
+          throw new Error('Unexpected content-type: ' + ct + ' preview: ' + textPreview)
+        }
         const data = await res.json()
         setUniversities(Array.isArray(data) ? data : [])
       } catch (e) {
         console.error('Failed to load universities', e)
-        setError('Failed to load universities')
+        setError('Failed to load universities: ' + e.message)
         setUniversities([])
       }
     }
