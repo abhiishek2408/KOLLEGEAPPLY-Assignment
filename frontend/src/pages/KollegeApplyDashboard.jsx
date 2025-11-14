@@ -6,7 +6,7 @@ export default function KollegeApplyDashboard() {
 
   useEffect(() => {
     async function load() {
-      const envBase = process.env.REACT_APP_BACKEND_URL?.replace(/\/$/, '')
+      const envBase = (process.env.REACT_APP_BACKEND_URL || '').replace(/\/$/, '')
       const primaryUrl = envBase ? envBase + '/api/universities' : '/api/universities'
       const tried = []
       for (const url of [primaryUrl, '/api/universities']) {
