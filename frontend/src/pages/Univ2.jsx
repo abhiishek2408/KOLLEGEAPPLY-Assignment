@@ -8,16 +8,39 @@ export default function Univ2() {
   const [fees, setFees] = useState(null)
 
   useEffect(() => { 
-    fetch((process.env.REACT_APP_BACKEND_URL || '') + `/api/universities/${slug}`)
-      .then(r => r.json())
-      .then(setData)
-      .catch(err => console.error('Failed to fetch university data:', err))
+    const load = async () => {
+      try {
+        const base = (process.env.REACT_APP_BACKEND_URL || '').replace(/\/$/, '')
+        const url = (base ? base : '') + `/api/universities/${slug}`
+        console.log('[Univ2] Fetching', url)
+        const r = await fetch(url, { headers: { 'Accept': 'application/json' } })
+        const ct = r.headers.get('content-type') || ''
+        if (!r.ok) throw new Error('HTTP ' + r.status)
+        if (!ct.includes('application/json')) {
+          const preview = (await r.text()).slice(0,120)
+          throw new Error('Unexpected content-type: ' + ct + ' preview: ' + preview)
+        }
+        setData(await r.json())
+      } catch (err) {
+        console.error('Failed to fetch university data:', err)
+        setData(null)
+      }
+    }
+    load()
   }, [])
 
   async function openFees() {
     setShowFees(true)
     try {
-      const r = await fetch((process.env.REACT_APP_BACKEND_URL || '') + `/api/universities/${slug}/course-fees`)
+      const base = (process.env.REACT_APP_BACKEND_URL || '').replace(/\/$/, '')
+      const url = (base ? base : '') + `/api/universities/${slug}/course-fees`
+      const r = await fetch(url, { headers: { 'Accept': 'application/json' } })
+      const ct = r.headers.get('content-type') || ''
+      if (!r.ok) throw new Error('HTTP ' + r.status)
+      if (!ct.includes('application/json')) {
+        const preview = (await r.text()).slice(0,120)
+        throw new Error('Unexpected content-type: ' + ct + ' preview: ' + preview)
+      }
       setFees(await r.json())
     } catch (err) {
       console.error('Failed to fetch fees:', err)
